@@ -1,11 +1,16 @@
-import { Card } from '@tremor/react'
 import './App.css'
-import Chart from './components/Chart'
+import { ThemeChanger } from './components/ThemeChanger'
+import { WeekDays } from './components/WeekDays'
+import { WeekTableTasks } from './components/WeekTable'
 
 function App () {
   return (
     <>
-    <Chart/>
+      <ThemeChanger/>
+      <WeekTableTasks />
+
+      <WeekDays />
+
     </>
   )
 }
