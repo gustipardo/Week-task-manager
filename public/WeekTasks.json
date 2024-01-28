@@ -1,7 +1,7 @@
  [
       {
         "day": "Monday",
-        "UserTasksSelected": ["r", "e", "p", "H", "t"]
+        "UserTasksSelected": ["r","t", "p"]
       },
       {
         "day": "Tuesday",
@@ -9,15 +9,15 @@
       },
       {
         "day": "Wednesday",
-        "UserTasksSelected": ["e", "t", "r", "H", "p"]
+        "UserTasksSelected": [ "H", "p"]
       },
       {
         "day": "Thursday",
-        "UserTasksSelected": ["H", "p", "e", "t", "r"]
+        "UserTasksSelected": ["H", "p", "e", "t"]
       },
       {
         "day": "Friday",
-        "UserTasksSelected": ["r", "t", "p", "e", "H"]
+        "UserTasksSelected": ["r", "t", "p"]
       },
       {
         "day": "Saturday",
@@ -25,6 +25,6 @@
       },
       {
         "day": "Sunday",
-        "UserTasksSelected": ["H", "t", "e", "r", "p"]
+        "UserTasksSelected": ["H", "t"]
       }
     ]

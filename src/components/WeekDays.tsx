@@ -1,5 +1,7 @@
 import {
   Card,
+  Select,
+  SelectItem,
   Table,
   TableBody,
   TableCell,
@@ -8,53 +10,33 @@ import {
   TableRow,
   Text
 } from '@tremor/react'
-
-const UserWeekTasksSelected = [
-  {
-    day: 'Monday',
-    UserTasksSelected: ['r', 'e', 'p', 'H', 't']
-  },
-  {
-    day: 'Tuesday',
-    UserTasksSelected: ['t', 'p', 'r', 'e', 'H']
-  },
-  {
-    day: 'Wednesday',
-    UserTasksSelected: ['e', 'H', 'p']
-  },
-  {
-    day: 'Thursday',
-    UserTasksSelected: ['H', 'p', 'e', 't', 'r']
-  },
-  {
-    day: 'Friday',
-    UserTasksSelected: ['r']
-  },
-  {
-    day: 'Saturday',
-    UserTasksSelected: ['e', 't', 'H']
-  },
-  {
-    day: 'Sunday',
-    UserTasksSelected: ['H', 't', 'e', 'r']
-  }
-]
+import { useUserTaskStore } from '../store/Tasks'
+import { useEffect } from 'react'
 
 export const WeekDays = () => {
+  const WeekUserTasksSelected = useUserTaskStore(state => state.WeekUserTasksSelected)
+  const fetchUserTasks = useUserTaskStore(state => state.fetchUserTasks)
+
+  useEffect(() => {
+    fetchUserTasks()
+    console.log(WeekUserTasksSelected)
+  }, [])
+
   return (
     <Card>
       <Table>
         <TableHead>
           <TableRow>
             {
-            UserWeekTasksSelected.map((item, index) => (
+            WeekUserTasksSelected.map((item, index) => (
                 <TableHeaderCell key={index}>{item.day.slice(0, 3)}</TableHeaderCell>
             ))
             }
           </TableRow>
         </TableHead>
         <TableBody>
-        {UserWeekTasksSelected.map((item, index) => (
+          <TableRow>
+        {WeekUserTasksSelected.map((item, index) => (
           <TableCell key={index}>
             {
             item.UserTasksSelected.map(element => (
@@ -63,6 +45,14 @@ export const WeekDays = () => {
             }
             </TableCell>
         ))}
+        </TableRow>
+        <TableRow>
+          <Select>
+            <SelectItem value='1'>H</SelectItem>
+            <SelectItem value='2'>G</SelectItem>
+            <SelectItem value='3'>J</SelectItem>
+          </Select>
+        </TableRow>
         </TableBody>
       </Table>
     </Card>

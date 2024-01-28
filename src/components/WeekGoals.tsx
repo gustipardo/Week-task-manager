@@ -10,36 +10,22 @@ import {
   Title
 } from '@tremor/react'
 import { getMondayAndSundayString } from '../services/CurrentWeek'
+import { useGoalsStore } from '../store/Goals'
+import { useEffect } from 'react'
 
-const WeekTask = [
-  {
-    task: 'Complete React Midu course',
-    task_letter: 'r'
-  },
-  {
-    task: 'Train for 5 days',
-    task_letter: 'e'
-  },
-  {
-    task: 'Define a project',
-    task_letter: 'p'
-  },
-  {
-    task: 'Finish wall structure',
-    task_letter: 'H'
-  },
-  {
-    task: 'Finish wall structure',
-    task_letter: 't'
-  }
-]
-
-export const WeekTableTasks = () => {
+export const WeekGoals = () => {
   const { monday, sunday } = getMondayAndSundayString()
+  const WeekGoals = useGoalsStore(state => state.WeekGoals)
+  const fetchGoals = useGoalsStore(state => state.fetchGoals)
+
+  useEffect(() => {
+    fetchGoals()
+    console.log(WeekGoals)
+  }, [])
   return (
   <Card>
     <Title>Week {monday} - {sunday}</Title>
-    <Table className="mt-5">
+        <Table className="mt-5">
       <TableHead>
         <TableRow>
           <TableHeaderCell>Letter</TableHeaderCell>
@@ -47,11 +33,11 @@ export const WeekTableTasks = () => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {WeekTask.map((item, index) => (
+        {WeekGoals.map((item, index) => (
           <TableRow key={index}>
-            <TableCell>{item.task_letter}</TableCell>
+            <TableCell>{item.letter}</TableCell>
             <TableCell>
-              <Text>{item.task}</Text>
+              <Text>{item.goal}</Text>
             </TableCell>
           </TableRow>
         ))}

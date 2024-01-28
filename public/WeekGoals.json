@@ -1,22 +1,27 @@
 [
   {
-    "task": "Complete React Midu course",
-    "task_letter": "r"
+    "id": "1",
+    "goal": "Complete React Midu course",
+    "letter": "r"
   },
   {
-    "task": "Train for 5 days",
-    "task_letter": "e"
+    "id": "2",
+    "goal": "Train for 5 days",
+    "letter": "e"
   },
   {
-    "task": "Define a project",
-    "task_letter": "p"
+    "id": "3",
+    "goal": "Define a project",
+    "letter": "p"
   },
   {
-    "task": "Finish wall structure",
-    "task_letter": "H"
+    "id": "4",
+    "goal": "Finish wall structure",
+    "letter": "H"
   },
   {
-    "task": "Finish wall structure",
-    "task_letter": "t"
+    "id": "5",
+    "goal": "Finish wall structure",
+    "letter": "t"
   }
 ]
