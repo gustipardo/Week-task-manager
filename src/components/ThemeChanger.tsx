@@ -12,6 +12,6 @@ export const ThemeChanger = () => {
     else setTheme('dark')
   }
   return (
-      <Switch id="switch" name="switch" checked={isSwitchOn} onChange={handleSwitchChange} />
+      <Switch id="switch" name="switch" checked={isSwitchOn} onChange={handleSwitchChange} color='yellow'/>
   )
 }

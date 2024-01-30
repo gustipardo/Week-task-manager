@@ -35,9 +35,9 @@ export const WeekGoals = () => {
       <TableBody>
         {WeekGoals.map((item, index) => (
           <TableRow key={index}>
-            <TableCell>{item.letter}</TableCell>
+            <TableCell className='w-1/6'>{item.letter}</TableCell>
             <TableCell>
-              <Text>{item.goal}</Text>
+              <Text className='w-5/6'>{item.goal}</Text>
             </TableCell>
           </TableRow>
         ))}

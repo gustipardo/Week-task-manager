@@ -1,14 +1,17 @@
 import { create } from 'zustand'
-import { type WeekGoal } from '../types.d'
+import { type task_letter, type WeekGoal } from '../types.d'
 
 interface State {
   WeekGoals: WeekGoal[]
+  GoalsLetters: task_letter[]
   fetchGoals: () => void
+  getAllLetters: () => void
 }
 
 export const useGoalsStore = create<State>((set, get) => {
   return {
     WeekGoals: [],
+    GoalsLetters: [],
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     fetchGoals: async () => {
@@ -17,6 +20,11 @@ export const useGoalsStore = create<State>((set, get) => {
       const goals = await res.json()
       console.log(goals)
       set({ WeekGoals: goals })
+    },
+    getAllLetters: () => {
+      const { WeekGoals } = get()
+      const GoalsLetters = WeekGoals.map(item => item.letter)
+      set({ GoalsLetters })
     }
   }
 }

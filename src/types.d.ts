@@ -1,5 +1,5 @@
 type Goal = string
-type task_letter = string
+export type task_letter = string
 type GoalId = string
 
 export interface WeekGoal {

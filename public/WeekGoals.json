@@ -2,17 +2,17 @@
   {
     "id": "1",
     "goal": "Complete React Midu course",
-    "letter": "r"
+    "letter": "R"
   },
   {
     "id": "2",
     "goal": "Train for 5 days",
-    "letter": "e"
+    "letter": "E"
   },
   {
     "id": "3",
     "goal": "Define a project",
-    "letter": "p"
+    "letter": "P"
   },
   {
     "id": "4",
@@ -22,6 +22,6 @@
   {
     "id": "5",
     "goal": "Finish wall structure",
-    "letter": "t"
+    "letter": "T"
   }
 ]
