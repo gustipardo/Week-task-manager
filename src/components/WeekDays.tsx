@@ -12,12 +12,13 @@ import { useUserTaskStore } from '../store/Tasks'
 import { useEffect } from 'react'
 import { useGoalsStore } from '../store/Goals'
 import { Select } from 'antd'
+import { type Day } from '../types'
 
 export const WeekDays = () => {
   const WeekUserTasksSelected = useUserTaskStore(state => state.WeekUserTasksSelected)
   const fetchUserTasks = useUserTaskStore(state => state.fetchUserTasks)
-  const getAllLetters = useGoalsStore(state => state.getAllLetters)
   const GoalsLetters = useGoalsStore(state => state.GoalsLetters)
+  const addUserTask = useUserTaskStore(state => state.addUserTask)
   const Options = GoalsLetters.map(letter => ({
     value: letter,
     label: letter
@@ -25,10 +26,16 @@ export const WeekDays = () => {
 
   useEffect(() => {
     fetchUserTasks()
-    getAllLetters()
+
     // console.log(GoalsLetters)
   }, [])
-  console.log(Options)
+  console.log('Options', Options)
+
+  const handleChangeSelect = (value: string, day: Day) => {
+    addUserTask(day, value)
+    console.log(value, day)
+  }
+
   return (
     <Card>
       <Table>
@@ -47,12 +54,12 @@ export const WeekDays = () => {
         <TableBody>
           <TableRow>
         {
-            WeekUserTasksSelected.map((item, index) => (
+            WeekUserTasksSelected.map((_item, index) => (
               <TableCell key={index} className='p-2'>
-                        <Select key={index}
+                        <Select
                           defaultValue="A"
                           style={{ width: 56 }}
-                          onChange={() => {}}
+                          onChange={(e) => { handleChangeSelect(e, _item.day) }}
                           options={Options}
                         />
                         </TableCell>
@@ -63,8 +70,8 @@ export const WeekDays = () => {
         { WeekUserTasksSelected.map((item, index) => (
           <TableCell key={index} className="">
             {
-            item.UserTasksSelected.map(element => (
-            <Badge key={element} className='flex flex-col place-content-center ' color='amber'>{element}</Badge>
+            item.UserTasksSelected.map((element, index) => (
+            <Badge key={index} className='flex flex-col place-content-center ' color='amber'>{element}</Badge>
             ))
             }
             </TableCell>

@@ -6,13 +6,11 @@ import { WeekGoals } from './components/WeekGoals'
 function App () {
   return (
     <>
-    <div className='w-5/6'>
+
       <ThemeChanger/>
       <WeekGoals />
       <WeekDays />
-      </div>
-      <div className='w-px'>
-        </div>
+
     </>
   )
 }

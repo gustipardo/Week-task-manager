@@ -1,11 +1,11 @@
 import { create } from 'zustand'
-import { type task_letter, type WeekGoal } from '../types.d'
+import { type Goal, type task_letter, type WeekGoal } from '../types.d'
 
 interface State {
   WeekGoals: WeekGoal[]
   GoalsLetters: task_letter[]
   fetchGoals: () => void
-  getAllLetters: () => void
+  addUserGoal: (goal: Goal, letter: task_letter) => void
 }
 
 export const useGoalsStore = create<State>((set, get) => {
@@ -19,12 +19,18 @@ export const useGoalsStore = create<State>((set, get) => {
       const res = await fetch('http://localhost:5173/WeekGoals.json')
       const goals = await res.json()
       console.log(goals)
-      set({ WeekGoals: goals })
+      const GoalsLetters = goals.map((item: { letter: task_letter }) => item.letter)
+      set({ WeekGoals: goals, GoalsLetters })
     },
-    getAllLetters: () => {
+    addUserGoal: (goal: Goal, letter: task_letter) => {
       const { WeekGoals } = get()
-      const GoalsLetters = WeekGoals.map(item => item.letter)
-      set({ GoalsLetters })
+      const newWeekGoals = structuredClone(WeekGoals)
+      newWeekGoals.push({
+        id: crypto.randomUUID(),
+        letter,
+        goal
+      })
+      set({ WeekGoals: newWeekGoals })
     }
   }
 }
