@@ -9,12 +9,13 @@ import {
   TableRow
 } from '@tremor/react'
 import { useUserTaskStore } from '../store/Tasks'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useGoalsStore } from '../store/Goals'
 import { Select } from 'antd'
 import { type Day } from '../types'
 
 export const WeekDays = () => {
+  const [selectedValue, setSelectedValue] = useState<string | undefined>('')
   const WeekUserTasksSelected = useUserTaskStore(state => state.WeekUserTasksSelected)
   const fetchUserTasks = useUserTaskStore(state => state.fetchUserTasks)
   const GoalsLetters = useGoalsStore(state => state.GoalsLetters)
@@ -33,7 +34,8 @@ export const WeekDays = () => {
 
   const handleChangeSelect = (value: string, day: Day) => {
     addUserTask(day, value)
-    console.log(value, day)
+    console.log(value, day, selectedValue)
+    setSelectedValue('')
   }
 
   return (
@@ -57,7 +59,7 @@ export const WeekDays = () => {
             WeekUserTasksSelected.map((_item, index) => (
               <TableCell key={index} className='p-2'>
                         <Select
-                          defaultValue="A"
+                          value=""
                           style={{ width: 56 }}
                           onChange={(e) => { handleChangeSelect(e, _item.day) }}
                           options={Options}

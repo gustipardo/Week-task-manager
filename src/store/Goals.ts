@@ -6,6 +6,8 @@ interface State {
   GoalsLetters: task_letter[]
   fetchGoals: () => void
   addUserGoal: (goal: Goal, letter: task_letter) => void
+  updateGoalsLetters: () => void
+  removeGoal: (id: string) => void
 }
 
 export const useGoalsStore = create<State>((set, get) => {
@@ -30,6 +32,19 @@ export const useGoalsStore = create<State>((set, get) => {
         letter,
         goal
       })
+      set({ WeekGoals: newWeekGoals })
+    },
+    updateGoalsLetters: () => {
+      const { WeekGoals } = get()
+      const GoalsLetters = WeekGoals.map((item: { letter: task_letter }) => item.letter)
+
+      set({ GoalsLetters })
+    },
+    removeGoal: (id: string) => {
+      const { WeekGoals } = get()
+      const newWeekGoals = structuredClone(WeekGoals)
+      const GoalIndex = newWeekGoals.findIndex(item => item.id === id)
+      if (GoalIndex > -1) newWeekGoals.splice(GoalIndex, 1)
       set({ WeekGoals: newWeekGoals })
     }
   }
