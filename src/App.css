@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+.deleteButton{
+  transition: opacity 0.2s ease; /* Agrega una transición suave de la opacidad */
+}
+.tableRow:hover .deleteButton{
+  opacity: 1;
+}
