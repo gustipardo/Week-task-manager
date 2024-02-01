@@ -41,11 +41,12 @@ export const useGoalsStore = create<State>((set, get) => {
       set({ GoalsLetters })
     },
     removeGoal: (id: string) => {
-      const { WeekGoals } = get()
+      const { WeekGoals, updateGoalsLetters } = get()
       const newWeekGoals = structuredClone(WeekGoals)
       const GoalIndex = newWeekGoals.findIndex(item => item.id === id)
       if (GoalIndex > -1) newWeekGoals.splice(GoalIndex, 1)
       set({ WeekGoals: newWeekGoals })
+      updateGoalsLetters()
     }
   }
 }
