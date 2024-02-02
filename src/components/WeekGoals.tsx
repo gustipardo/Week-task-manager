@@ -11,13 +11,14 @@ import {
   TextInput,
   Title
 } from '@tremor/react'
-import { getMondayAndSundayString } from '../services/CurrentWeek'
 import { useGoalsStore } from '../store/Goals'
 import { useEffect, useState } from 'react'
 import { type Goal, type task_letter } from '../types'
+import { useDateStore } from '../store/Dates'
 
 export const WeekGoals = () => {
-  const { monday, sunday } = getMondayAndSundayString()
+  const monday = useDateStore(state => state.CurrentMondayString)
+  const sunday = useDateStore(state => state.CurrentSundayString)
   const WeekGoals = useGoalsStore(state => state.WeekGoals)
   const fetchGoals = useGoalsStore(state => state.fetchGoals)
   const addUserGoal = useGoalsStore(state => state.addUserGoal)

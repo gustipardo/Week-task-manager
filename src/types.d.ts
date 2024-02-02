@@ -14,3 +14,11 @@ export interface WeekTasks {
   day: Day
   UserTasksSelected: task_letter[]
 }
+
+export type InitialDate = Date
+
+export interface WeekInfo {
+  Date: InitialDate
+  WeekTasks: WeekTasks
+  WeekGoal: WeekGoal
+}
