@@ -8,11 +8,11 @@ import {
   TableHeaderCell,
   TableRow
 } from '@tremor/react'
-import { useUserTaskStore } from '../store/Tasks'
 import { useEffect, useState } from 'react'
 import { useGoalsStore } from '../store/Goals'
 import { Select } from 'antd'
 import { type Day } from '../types'
+import { useUserTaskStore } from '../store/tasks'
 
 export const WeekDays = () => {
   const [selectedValue, setSelectedValue] = useState<string | undefined>('')

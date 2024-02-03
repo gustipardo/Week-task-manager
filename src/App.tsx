@@ -5,7 +5,7 @@ import { WeekDays } from './components/WeekDays'
 import { WeekGoals } from './components/WeekGoals'
 import { ArrowRightCircleIcon } from '@heroicons/react/16/solid'
 import { useDateStore } from './store/Dates'
-import { useUserTaskStore } from './store/Tasks'
+import { useUserTaskStore } from './store/tasks'
 import { useGoalsStore } from './store/Goals'
 
 function App () {

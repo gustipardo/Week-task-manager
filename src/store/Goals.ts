@@ -25,9 +25,10 @@ export const useGoalsStore = create<State>((set, get) => {
       const res = await fetch('http://localhost:5173/WeekInfo.json')
       const json = await res.json()
       const CurrentWeekInfo = json.WeeksInfo.find(((semana: { date: string }) => semana.date === CurrentInitialDateString))
-      const CurrentWeekGoal = CurrentWeekInfo.WeekGoal
-      const GoalsLetters = CurrentWeekGoal.map((item: { letter: task_letter }) => item.letter)
+      const CurrentWeekGoal = CurrentWeekInfo ? CurrentWeekInfo.WeekGoal : []
+      const GoalsLetters = CurrentWeekGoal ? CurrentWeekGoal.map((item: { letter: task_letter }) => item.letter) : []
       console.log('CurrentGoal', CurrentWeekGoal)
+
       set({ WeekGoals: CurrentWeekGoal, GoalsLetters })
     },
     addUserGoal: (goal: Goal, letter: task_letter) => {
