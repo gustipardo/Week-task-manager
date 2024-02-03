@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import { type Goal, type task_letter, type WeekGoal } from '../types.d'
+import { useDateStore } from './Dates'
+import { formatearFecha } from '../services/FormatDate'
 
 interface State {
   WeekGoals: WeekGoal[]
@@ -17,12 +19,16 @@ export const useGoalsStore = create<State>((set, get) => {
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     fetchGoals: async () => {
-    //   console.log('goals')
-      const res = await fetch('http://localhost:5173/WeekGoals.json')
-      const goals = await res.json()
-      console.log(goals)
-      const GoalsLetters = goals.map((item: { letter: task_letter }) => item.letter)
-      set({ WeekGoals: goals, GoalsLetters })
+      const CurrentInitialDate = useDateStore.getState().CurrentInitialDate
+      const CurrentInitialDateString = formatearFecha(CurrentInitialDate)
+      //   console.log('goals')
+      const res = await fetch('http://localhost:5173/WeekInfo.json')
+      const json = await res.json()
+      const CurrentWeekInfo = json.WeeksInfo.find(((semana: { date: string }) => semana.date === CurrentInitialDateString))
+      const CurrentWeekGoal = CurrentWeekInfo.WeekGoal
+      const GoalsLetters = CurrentWeekGoal.map((item: { letter: task_letter }) => item.letter)
+      console.log('CurrentGoal', CurrentWeekGoal)
+      set({ WeekGoals: CurrentWeekGoal, GoalsLetters })
     },
     addUserGoal: (goal: Goal, letter: task_letter) => {
       const { WeekGoals } = get()

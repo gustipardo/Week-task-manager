@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import { type Day, type task_letter, type WeekTasks } from '../types.d'
+import { useDateStore } from './Dates'
+import { formatearFecha } from '../services/FormatDate'
 
 interface State {
   WeekUserTasksSelected: WeekTasks[]
@@ -13,9 +15,14 @@ export const useUserTaskStore = create<State>((set, get) => {
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     fetchUserTasks: async () => {
-      const res = await fetch('http://localhost:5173/WeekTasks.json')
+      const CurrentInitialDate = useDateStore.getState().CurrentInitialDate
+      const CurrentInitialDateString = formatearFecha(CurrentInitialDate)
+      const res = await fetch('http://localhost:5173/WeekInfo.json')
       const json = await res.json()
-      set({ WeekUserTasksSelected: json })
+      const CurrentWeekInfo = json.WeeksInfo.find(((semana: { date: string }) => semana.date === CurrentInitialDateString))
+      const CurrentWeekTasks = CurrentWeekInfo.WeekTasks
+      console.log('currentTasks', CurrentWeekTasks)
+      set({ WeekUserTasksSelected: CurrentWeekTasks })
     },
     addUserTask: (day: Day, letter: task_letter) => {
       const { WeekUserTasksSelected } = get()

@@ -1,17 +1,31 @@
 import { type InitialDate } from '../types'
 
-export function getMondayAndSundayString (date: InitialDate): { monday: string, sunday: string, mondayDate: InitialDate } {
-  const currentDayOfWeek = date.getDay()
-  const differenceToMonday = date.getDate() - currentDayOfWeek + (currentDayOfWeek === 0 ? -6 : 1)
-  const monday = new Date(date.setDate(differenceToMonday))
-  const sunday = new Date(date.setDate(differenceToMonday + 6))
+export function getMondayAndSundayString (date: InitialDate, IsMondayFirstDayWeek: boolean = true): { FirstDay: string, LastDay: string, FirstDate: InitialDate, LastDate: InitialDate } {
+  // Asegúrate de copiar la fecha para no modificar la fecha original
+  const currentDate = new Date(date)
 
-  // Restauramos la fecha original para evitar efectos secundarios
-  date.setDate(date.getDate() - 7)
+  // Obtén el día de la semana (0 para domingo, 1 para lunes, etc.)
+  const dayOfWeek = currentDate.getDay()
 
-  // Formateamos las fechas como dd/mm
-  const mondayString = `${monday.getDate().toString().padStart(2, '0')}/${(monday.getMonth() + 1).toString().padStart(2, '0')}`
-  const sundayString = `${sunday.getDate().toString().padStart(2, '0')}/${(sunday.getMonth() + 1).toString().padStart(2, '0')}`
+  // Calcula la diferencia entre el día actual y el lunes (considerando si el lunes es el primer día de la semana)
+  const daysUntilMonday = (dayOfWeek + (IsMondayFirstDayWeek ? 6 : 0)) % 7
+  const daysUntilSunday = (dayOfWeek + (IsMondayFirstDayWeek ? 0 : 6)) % 7
 
-  return { monday: mondayString, sunday: sundayString, mondayDate: monday }
+  // Calcula la fecha del lunes y del domingo
+  const monday = new Date(currentDate)
+  monday.setDate(currentDate.getDate() - daysUntilMonday)
+
+  const sunday = new Date(currentDate)
+  sunday.setDate(currentDate.getDate() + daysUntilSunday)
+
+  // Formatea las fechas como cadenas
+  const firstDayString = monday.toISOString().split('T')[0]
+  const lastDayString = sunday.toISOString().split('T')[0]
+
+  return {
+    FirstDay: firstDayString,
+    LastDay: lastDayString,
+    FirstDate: monday,
+    LastDate: sunday
+  }
 }

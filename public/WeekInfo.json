@@ -1,0 +1,162 @@
+{
+    "WeeksInfo": [
+        {
+            "date": "29-01-2024",
+            "id": "1",
+            "WeekGoal": [
+                {
+                    "id": "1",
+                    "goal": "Complete React Midu course",
+                    "letter": "R"
+                },
+                {
+                    "id": "2",
+                    "goal": "Train for 5 days",
+                    "letter": "E"
+                },
+                {
+                    "id": "3",
+                    "goal": "Define a project",
+                    "letter": "P"
+                },
+                {
+                    "id": "4",
+                    "goal": "Finish wall structure",
+                    "letter": "H"
+                },
+                {
+                    "id": "5",
+                    "goal": "Finish wall structure",
+                    "letter": "T"
+                }
+            ],
+            "WeekTasks": [
+                {
+                    "day": "Monday",
+                    "UserTasksSelected": [
+                        "R",
+                        "T",
+                        "P"
+                    ]
+                },
+                {
+                    "day": "Tuesday",
+                    "UserTasksSelected": [
+                        "T",
+                        "P",
+                        "R",
+                        "E",
+                        "H"
+                    ]
+                },
+                {
+                    "day": "Wednesday",
+                    "UserTasksSelected": [
+                        "H",
+                        "P"
+                    ]
+                },
+                {
+                    "day": "Thursday",
+                    "UserTasksSelected": [
+                        "H",
+                        "P",
+                        "E",
+                        "T"
+                    ]
+                },
+                {
+                    "day": "Friday",
+                    "UserTasksSelected": [
+                        "R",
+                        "T",
+                        "P"
+                    ]
+                },
+                {
+                    "day": "Saturday",
+                    "UserTasksSelected": [
+                        "E",
+                        "P",
+                        "R",
+                        "T",
+                        "H"
+                    ]
+                },
+                {
+                    "day": "Sunday",
+                    "UserTasksSelected": [
+                        "H",
+                        "T"
+                    ]
+                }
+            ]
+        },
+        {
+            "date": "05-02-2024",
+            "id": "2",
+            "WeekGoal": [
+                {
+                    "id": "1",
+                    "goal": "Complete React Midu course",
+                    "letter": "R"
+                },
+                {
+                    "id": "5",
+                    "goal": "Finish wall structure",
+                    "letter": "T"
+                }
+            ],
+            "WeekTasks": [
+                {
+                    "day": "Monday",
+                    "UserTasksSelected": [
+                        "R",
+                        "T",
+                        "P"
+                    ]
+                },
+                {
+                    "day": "Tuesday",
+                    "UserTasksSelected": [
+                        "T"
+                    ]
+                },
+                {
+                    "day": "Wednesday",
+                    "UserTasksSelected": [
+                        "H",
+                        "P"
+                    ]
+                },
+                {
+                    "day": "Thursday",
+                    "UserTasksSelected": [
+                        "H",
+                        "P"
+                    ]
+                },
+                {
+                    "day": "Friday",
+                    "UserTasksSelected": [
+                        "R",
+                        "T",
+                        "P"
+                    ]
+                },
+                {
+                    "day": "Saturday",
+                    "UserTasksSelected": [
+                        "E",
+                        "P"
+                    ]
+                },
+                {
+                    "day": "Sunday",
+                    "UserTasksSelected": [
+                    ]
+                }
+            ]
+        }
+    ]
+}

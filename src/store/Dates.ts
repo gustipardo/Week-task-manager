@@ -11,19 +11,20 @@ interface State {
 
 export const useDateStore = create<State>((set, get) => {
   const today = new Date()
-  const { mondayDate, monday, sunday } = getMondayAndSundayString(today)
+  const { FirstDay, LastDay, FirstDate } = getMondayAndSundayString(today)
   return {
-    CurrentInitialDate: mondayDate,
-    CurrentMondayString: monday,
-    CurrentSundayString: sunday,
+    CurrentInitialDate: FirstDate,
+    CurrentMondayString: FirstDay,
+    CurrentSundayString: LastDay,
     goNextWeek: () => {
       const { CurrentInitialDate } = get()
-      console.log('Old ', CurrentInitialDate)
+      // console.log('Old ', CurrentInitialDate)
       const newCurrentInitialDate = new Date(CurrentInitialDate)
       newCurrentInitialDate.setDate(newCurrentInitialDate.getDate() + 7)
-      const { monday, sunday } = getMondayAndSundayString(newCurrentInitialDate)
-      console.log('New ', newCurrentInitialDate)
-      set({ CurrentInitialDate: newCurrentInitialDate, CurrentMondayString: monday, CurrentSundayString: sunday })
+      const { FirstDay, LastDay } = getMondayAndSundayString(newCurrentInitialDate)
+      // console.log('New ', newCurrentInitialDate)
+
+      set({ CurrentInitialDate: newCurrentInitialDate, CurrentMondayString: FirstDay, CurrentSundayString: LastDay })
     }
   }
 }
