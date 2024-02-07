@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { type Goal, type task_letter, type WeekGoal } from '../types.d'
 import { useDateStore } from './Dates'
 import { formatearFecha } from '../services/FormatDate'
+import { persist } from 'zustand/middleware'
 
 interface State {
   WeekGoals: WeekGoal[]
@@ -12,7 +13,7 @@ interface State {
   removeGoal: (id: string) => void
 }
 
-export const useGoalsStore = create<State>((set, get) => {
+export const useGoalsStore = create<State>()(persist((set, get) => {
   return {
     WeekGoals: [],
     GoalsLetters: [],
@@ -56,5 +57,7 @@ export const useGoalsStore = create<State>((set, get) => {
       updateGoalsLetters()
     }
   }
+}, {
+  name: 'goals'
 }
-)
+))

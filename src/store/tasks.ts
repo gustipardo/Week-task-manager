@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { type Day, type task_letter, type WeekTasks } from '../types'
 import { useDateStore } from './Dates'
 import { formatearFecha } from '../services/FormatDate'
+import { persist } from 'zustand/middleware'
 
 interface State {
   WeekUserTasksSelected: WeekTasks[]
@@ -9,7 +10,7 @@ interface State {
   addUserTask: (day: Day, letter: task_letter) => void
 }
 
-export const useUserTaskStore = create<State>((set, get) => {
+export const useUserTaskStore = create<State>()(persist((set, get) => {
   return {
     WeekUserTasksSelected: [],
 
@@ -36,5 +37,7 @@ export const useUserTaskStore = create<State>((set, get) => {
       set({ WeekUserTasksSelected: newUserTasksSelected })
     }
   }
+}, {
+  name: 'tasks'
 }
-)
+))

@@ -19,6 +19,7 @@ export type InitialDate = Date
 
 export interface WeekInfo {
   Date: InitialDate
+  id: string
   WeekTasks: WeekTasks
   WeekGoal: WeekGoal
 }
