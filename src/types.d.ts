@@ -17,9 +17,11 @@ export interface WeekTasks {
 
 export type InitialDate = Date
 
+export type cryptoUUID = `${string}-${string}-${string}-${string}-${string}`
+
 export interface WeekInfo {
   Date: InitialDate
-  id: string
-  WeekTasks: WeekTasks
-  WeekGoal: WeekGoal
+  id: cryptoUUID
+  WeekTasks: WeekTasks[]
+  WeekGoal: WeekGoal[]
 }
