@@ -2,18 +2,27 @@ import { useEffect } from 'react'
 import { useWeekInfoStore } from '../store/WeekInfo'
 
 export const Hola = () => {
-  const WeeksInfo = useWeekInfoStore(state => state.hola)
+  const WeeksInfo2 = useWeekInfoStore(state => state.hola)
   const fetchHola = useWeekInfoStore(state => state.fetchHola)
+
+  const WeeksInfo = useWeekInfoStore(state => state.WeeksInfo)
+  const fetchWeeksInfo = useWeekInfoStore(state => state.fetchWeeksInfo)
+
   console.log('aa', WeeksInfo)
   useEffect(() => {
     console.log('Effe', WeeksInfo)
-    fetchHola()
+    fetchWeeksInfo()
     console.log('Effe', WeeksInfo)
-  }, [WeeksInfo])
+  }, [])
+
+  // Convertir el objeto WeeksInfo a una cadena JSON
+  const weeksInfoString = JSON.stringify(WeeksInfo)
+
   return (
     <>
-        <h1>Holaaa</h1>
-        <p>{WeeksInfo[1]}</p>
+      <h1>Holaaa</h1>
+      {/* Mostrar la cadena JSON en un párrafo */}
+      <p>{weeksInfoString}</p>
     </>
   )
 }

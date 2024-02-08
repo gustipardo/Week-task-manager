@@ -23,8 +23,8 @@ function App () {
       <Icon size="lg" icon={ArrowLeftCircleIcon} onClick={() => { handleClick(false) }}/>
       <Icon size="lg" icon={ArrowRightCircleIcon} onClick={() => { handleClick(true) }}/>
       <ThemeChanger/>
-      <Hola></Hola>
-      {/* <WeekGoals /> */}
+      {/* <Hola></Hola> */}
+      <WeekGoals />
       {/* <WeekDays /> */}
     </>
   )

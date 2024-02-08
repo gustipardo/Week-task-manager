@@ -17,6 +17,7 @@ interface State {
   goNextWeek: (isNext?: boolean) => void
   hola: string[]
   fetchHola: () => void
+  fetchWeeksInfo: () => void
 }
 
 export const useWeekInfoStore = create<State>()(persist((set, get) => {
@@ -33,6 +34,13 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
 
     fetchHola: () => {
       set({ hola })
+    },
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    fetchWeeksInfo: async () => {
+      const res = await fetch('http://localhost:5173/WeekInfo.json')
+      const json = await res.json()
+
+      set({ WeeksInfo: json })
     },
     // addNewWeek: () => {
 
