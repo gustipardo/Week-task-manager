@@ -30,12 +30,12 @@ export const WeekGoals = () => {
   const deleteGoal = useWeekInfoStore(state => state.deleteGoal)
 
   useEffect(() => {
-    // addNewWeek()
-    // addNewGoal('C', 'holamanola')
-    // deleteGoal()
-    console.log('errk', WeeksInfo)
+    addNewWeek()
   }, [])
 
+  useEffect(() => {
+    console.log('errk', WeeksInfo)
+  }, [WeeksInfo])
   const handleSubmit = (event: React.FormEvent) => {
     setDisabled(true)
     event.preventDefault()

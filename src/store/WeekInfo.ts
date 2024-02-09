@@ -84,7 +84,8 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
       set({ WeeksInfo: newWeeksInfo })
     },
     goNextWeek: (isNext: boolean = true) => {
-      const { CurrentMondayString } = get()
+      const { CurrentMondayString, addNewWeek } = get()
+      addNewWeek()
       const dateParts = CurrentMondayString.split('-') // Divides la cadena por el separador '-'
       const year = parseInt(dateParts[0]) // Obtienes el año
       const month = parseInt(dateParts[1]) - 1 // Obtienes el mes (restas 1 porque los meses son 0-indexados)
