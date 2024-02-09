@@ -119,7 +119,6 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
       console.log('getGoalsLetters', newGoalsLetters)
       set({ GoalsLetters: newGoalsLetters })
     }
-
   }
 }, {
   name: 'WeekInfo'
