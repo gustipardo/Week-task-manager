@@ -4,6 +4,7 @@ import { ThemeChanger } from './components/ThemeChanger'
 import { WeekGoals } from './components/WeekGoals'
 import { ArrowLeftCircleIcon, ArrowRightCircleIcon } from '@heroicons/react/16/solid'
 import { useWeekInfoStore } from './store/WeekInfo'
+import { WeekDays } from './components/WeekDays'
 
 function App () {
   const goNextWeek = useWeekInfoStore(state => state.goNextWeek)
@@ -17,7 +18,7 @@ function App () {
       <Icon size="lg" icon={ArrowRightCircleIcon} onClick={() => { handleClick(true) }}/>
       <ThemeChanger/>
       <WeekGoals />
-      {/* <WeekDays /> */}
+        <WeekDays />
     </>
   )
 }

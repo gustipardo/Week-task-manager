@@ -43,7 +43,15 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
           id: crypto.randomUUID(),
           Date: CurrentMondayString,
           WeekGoal: [],
-          WeekTasks: []
+          WeekTasks: [
+            { day: 'Monday', UserTasksSelected: [] },
+            { day: 'Tuesday', UserTasksSelected: [] },
+            { day: 'Wednesday', UserTasksSelected: [] },
+            { day: 'Thursday', UserTasksSelected: [] },
+            { day: 'Friday', UserTasksSelected: [] },
+            { day: 'Saturday', UserTasksSelected: [] },
+            { day: 'Sunday', UserTasksSelected: [] }
+          ]
         })
       }
       set({ WeeksInfo: newWeeksInfo })
@@ -62,7 +70,7 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
       set({ WeeksInfo: newWeeksInfo })
     },
     addNewGoal: (goal: Goal, letter: task_letter) => {
-      const { WeeksInfo, CurrentMondayString } = get()
+      const { WeeksInfo, CurrentMondayString, getGoalsLetters } = get()
       const newWeeksInfo = structuredClone(WeeksInfo)
       const { CurrentWeekInfo, CurrentWeekIndex } = getCurrentWeekInfo(WeeksInfo, CurrentMondayString)
       CurrentWeekInfo.WeekGoal.push({
@@ -72,6 +80,7 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
       })
 
       newWeeksInfo[CurrentWeekIndex] = CurrentWeekInfo
+      getGoalsLetters()
       set({ WeeksInfo: newWeeksInfo })
     },
     deleteGoal: (UUID: string) => {
@@ -86,6 +95,7 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
     goNextWeek: (isNext: boolean = true) => {
       const { CurrentMondayString, addNewWeek } = get()
       addNewWeek()
+
       const dateParts = CurrentMondayString.split('-') // Divides la cadena por el separador '-'
       const year = parseInt(dateParts[0]) // Obtienes el año
       const month = parseInt(dateParts[1]) - 1 // Obtienes el mes (restas 1 porque los meses son 0-indexados)
@@ -102,9 +112,9 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
     getGoalsLetters: () => {
       const { WeeksInfo, CurrentMondayString } = get()
       const { CurrentWeekInfo } = getCurrentWeekInfo(WeeksInfo, CurrentMondayString)
-      const GoalsLetters = CurrentWeekInfo.WeekGoal.map((item: { letter: task_letter }) => item.letter)
-
-      set({ GoalsLetters })
+      const newGoalsLetters = CurrentWeekInfo.WeekGoal.map((item: { letter: task_letter }) => item.letter)
+      console.log('2', newGoalsLetters)
+      set({ GoalsLetters: newGoalsLetters })
     }
 
   }

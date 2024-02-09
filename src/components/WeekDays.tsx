@@ -9,26 +9,29 @@ import {
   TableRow
 } from '@tremor/react'
 import { useEffect, useState } from 'react'
-import { useGoalsStore } from '../store/Goals'
 import { Select } from 'antd'
 import { type Day } from '../types'
-import { useUserTaskStore } from '../store/tasks'
+import { useWeekInfoStore } from '../store/WeekInfo'
+import { getCurrentWeekInfo } from '../services/CurrentWeekInfo'
 
 export const WeekDays = () => {
   const [selectedValue, setSelectedValue] = useState<string | undefined>('')
-  const WeekUserTasksSelected = useUserTaskStore(state => state.WeekUserTasksSelected)
-  const fetchUserTasks = useUserTaskStore(state => state.fetchUserTasks)
-  const GoalsLetters = useGoalsStore(state => state.GoalsLetters)
-  const addUserTask = useUserTaskStore(state => state.addUserTask)
+
+  const monday = useWeekInfoStore(state => state.CurrentMondayString)
+  const WeeksInfo = useWeekInfoStore(state => state.WeeksInfo)
+  const { CurrentWeekInfo } = getCurrentWeekInfo(WeeksInfo, monday)
+  const WeekUserTasksSelected = CurrentWeekInfo?.WeekTasks
+
+  const GoalsLetters = useWeekInfoStore(state => state.GoalsLetters)
+  const addUserTask = useWeekInfoStore(state => state.addNewTask)
+
   const Options = GoalsLetters.map(letter => ({
     value: letter,
     label: letter
   }))
 
   useEffect(() => {
-    fetchUserTasks()
-
-    // console.log(GoalsLetters)
+    console.log('Weekdays', WeekUserTasksSelected)
   }, [])
   console.log('Options', Options)
 
@@ -44,7 +47,7 @@ export const WeekDays = () => {
         <TableHead className='border-b-2'>
           <TableRow>
             {
-            WeekUserTasksSelected.map((item, index) => (
+            WeekUserTasksSelected?.map((item, index) => (
                 <TableHeaderCell key={index} className="text-center">
                   {item.day.slice(0, 3)}
                 </TableHeaderCell>
@@ -56,7 +59,7 @@ export const WeekDays = () => {
         <TableBody>
           <TableRow>
         {
-            WeekUserTasksSelected.map((_item, index) => (
+            WeekUserTasksSelected?.map((_item, index) => (
               <TableCell key={index} className='p-2'>
                         <Select
                           value=""
@@ -69,7 +72,7 @@ export const WeekDays = () => {
             }
             </TableRow>
           <TableRow>
-        { WeekUserTasksSelected.map((item, index) => (
+        { WeekUserTasksSelected?.map((item, index) => (
           <TableCell key={index} className="">
             {
             item.UserTasksSelected.map((element, index) => (
