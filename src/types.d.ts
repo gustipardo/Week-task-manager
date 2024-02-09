@@ -15,7 +15,7 @@ export interface WeekTasks {
   UserTasksSelected: task_letter[]
 }
 
-export type InitialDate = Date
+export type InitialDate = string
 
 export type cryptoUUID = `${string}-${string}-${string}-${string}-${string}`
 

@@ -1,40 +1,32 @@
 import { create } from 'zustand'
-import { type task_letter, type WeekInfo, type Day, type Goal, type InitialDate } from '../types.d'
+import { type task_letter, type WeekInfo, type Day, type Goal } from '../types.d'
 import { persist } from 'zustand/middleware'
 import { getMondayAndSundayString } from '../services/CurrentWeek'
 import { getCurrentWeekInfo } from '../services/CurrentWeekInfo'
 
 interface State {
   WeeksInfo: WeekInfo[]
-  CurrentInitialDate: InitialDate
   GoalsLetters: task_letter[]
   addNewTask: (day: Day, letter: task_letter) => void
   addNewGoal: (goal: Goal, letter: task_letter) => void
   getGoalsLetters: () => void
   CurrentMondayString: string
   CurrentSundayString: string
-  deleteGoal: () => void
+  deleteGoal: (UUID: string) => void
   goNextWeek: (isNext?: boolean) => void
-  hola: string[]
-  fetchHola: () => void
   fetchWeeksInfo: () => void
+  addNewWeek: () => void
 }
 
 export const useWeekInfoStore = create<State>()(persist((set, get) => {
   const today = new Date()
-  const { FirstDay, LastDay, FirstDate } = getMondayAndSundayString(today)
-  const hola = ['hoaala', 'chau']
+  const { FirstDay, LastDay } = getMondayAndSundayString(today)
   return {
-    hola: [],
     WeeksInfo: [],
-    CurrentInitialDate: FirstDate,
     CurrentMondayString: FirstDay,
     CurrentSundayString: LastDay,
     GoalsLetters: [],
 
-    fetchHola: () => {
-      set({ hola })
-    },
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     fetchWeeksInfo: async () => {
       const res = await fetch('http://localhost:5173/WeekInfo.json')
@@ -42,13 +34,24 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
 
       set({ WeeksInfo: json })
     },
-    // addNewWeek: () => {
-
-    // },
-    addNewTask: (day: Day, letter: task_letter) => {
-      const { WeeksInfo, CurrentInitialDate } = get()
+    addNewWeek: () => {
+      const { WeeksInfo, CurrentMondayString } = get()
       const newWeeksInfo = structuredClone(WeeksInfo)
-      const { CurrentWeekInfo, CurrentWeekIndex } = getCurrentWeekInfo(WeeksInfo, CurrentInitialDate)
+      const { CurrentWeekIndex } = getCurrentWeekInfo(WeeksInfo, CurrentMondayString)
+      if (CurrentWeekIndex === -1) {
+        newWeeksInfo.push({
+          id: crypto.randomUUID(),
+          Date: CurrentMondayString,
+          WeekGoal: [],
+          WeekTasks: []
+        })
+      }
+      set({ WeeksInfo: newWeeksInfo })
+    },
+    addNewTask: (day: Day, letter: task_letter) => {
+      const { WeeksInfo, CurrentMondayString } = get()
+      const newWeeksInfo = structuredClone(WeeksInfo)
+      const { CurrentWeekInfo, CurrentWeekIndex } = getCurrentWeekInfo(WeeksInfo, CurrentMondayString)
       if (CurrentWeekInfo === undefined) return
       const dayIndex = CurrentWeekInfo.WeekTasks.findIndex(item => item.day === day)
       const dayObject = CurrentWeekInfo.WeekTasks[dayIndex]
@@ -59,9 +62,9 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
       set({ WeeksInfo: newWeeksInfo })
     },
     addNewGoal: (goal: Goal, letter: task_letter) => {
-      const { WeeksInfo, CurrentInitialDate } = get()
+      const { WeeksInfo, CurrentMondayString } = get()
       const newWeeksInfo = structuredClone(WeeksInfo)
-      const { CurrentWeekInfo, CurrentWeekIndex } = getCurrentWeekInfo(WeeksInfo, CurrentInitialDate)
+      const { CurrentWeekInfo, CurrentWeekIndex } = getCurrentWeekInfo(WeeksInfo, CurrentMondayString)
       CurrentWeekInfo.WeekGoal.push({
         id: crypto.randomUUID(),
         letter,
@@ -71,22 +74,33 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
       newWeeksInfo[CurrentWeekIndex] = CurrentWeekInfo
       set({ WeeksInfo: newWeeksInfo })
     },
-    deleteGoal: () => {
-      console.log('remove')
+    deleteGoal: (UUID: string) => {
+      const { WeeksInfo, CurrentMondayString } = get()
+      const newWeeksInfo = structuredClone(WeeksInfo)
+      const { CurrentWeekInfo, CurrentWeekIndex } = getCurrentWeekInfo(WeeksInfo, CurrentMondayString)
+      const GoalIndex = CurrentWeekInfo.WeekGoal.findIndex(item => item.id === UUID)
+      if (GoalIndex > -1) CurrentWeekInfo.WeekGoal.splice(GoalIndex, 1)
+      newWeeksInfo[CurrentWeekIndex] = CurrentWeekInfo
+      set({ WeeksInfo: newWeeksInfo })
     },
     goNextWeek: (isNext: boolean = true) => {
-      const { CurrentInitialDate } = get()
+      const { CurrentMondayString } = get()
+      const dateParts = CurrentMondayString.split('-') // Divides la cadena por el separador '-'
+      const year = parseInt(dateParts[0]) // Obtienes el año
+      const month = parseInt(dateParts[1]) - 1 // Obtienes el mes (restas 1 porque los meses son 0-indexados)
+      const day = parseInt(dateParts[2]) // Obtienes el día
 
-      const newCurrentInitialDate = new Date(CurrentInitialDate)
+      // Creas un objeto Date a partir de los componentes de la fecha
+      const newCurrentInitialDate = new Date(year, month, day)
       const DaysToAdd = isNext ? 7 : -7
       newCurrentInitialDate.setDate(newCurrentInitialDate.getDate() + DaysToAdd)
-      const { FirstDay, LastDay } = getMondayAndSundayString(newCurrentInitialDate)
 
-      set({ CurrentInitialDate: newCurrentInitialDate, CurrentMondayString: FirstDay, CurrentSundayString: LastDay })
+      const { FirstDay, LastDay } = getMondayAndSundayString(newCurrentInitialDate)
+      set({ CurrentMondayString: FirstDay, CurrentSundayString: LastDay })
     },
     getGoalsLetters: () => {
-      const { WeeksInfo, CurrentInitialDate } = get()
-      const { CurrentWeekInfo } = getCurrentWeekInfo(WeeksInfo, CurrentInitialDate)
+      const { WeeksInfo, CurrentMondayString } = get()
+      const { CurrentWeekInfo } = getCurrentWeekInfo(WeeksInfo, CurrentMondayString)
       const GoalsLetters = CurrentWeekInfo.WeekGoal.map((item: { letter: task_letter }) => item.letter)
 
       set({ GoalsLetters })
