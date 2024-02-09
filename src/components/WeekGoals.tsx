@@ -42,6 +42,7 @@ export const WeekGoals = () => {
     if (letter.length === 1 && !GoalsLetters.includes(letter) && description.length > 0) {
       addNewGoal(description, letter)
       getGoalsLetters()
+      console.log('Goals Letters in WeekGoals after Submit', GoalsLetters)
     } else {
       setDisabled(false)
       throw new Error('You can only use a single Letter and it cant be repited')

@@ -23,6 +23,8 @@ export const WeekDays = () => {
   const WeekUserTasksSelected = CurrentWeekInfo?.WeekTasks
 
   const GoalsLetters = useWeekInfoStore(state => state.GoalsLetters)
+  console.log('Goals Letters in WeekDays', GoalsLetters)
+
   const addUserTask = useWeekInfoStore(state => state.addNewTask)
 
   const Options = GoalsLetters.map(letter => ({

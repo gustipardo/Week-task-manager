@@ -95,7 +95,7 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
       set({ WeeksInfo: newWeeksInfo })
     },
     goNextWeek: (isNext: boolean = true) => {
-      const { CurrentMondayString, addNewWeek } = get()
+      const { CurrentMondayString, addNewWeek, getGoalsLetters } = get()
 
       const dateParts = CurrentMondayString.split('-') // Divides la cadena por el separador '-'
       const year = parseInt(dateParts[0]) // Obtienes el año
@@ -110,11 +110,13 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
       const { FirstDay, LastDay } = getMondayAndSundayString(newCurrentInitialDate)
       set({ CurrentMondayString: FirstDay, CurrentSundayString: LastDay })
       addNewWeek()
+      getGoalsLetters()
     },
     getGoalsLetters: () => {
       const { WeeksInfo, CurrentMondayString } = get()
       const { CurrentWeekInfo } = getCurrentWeekInfo(WeeksInfo, CurrentMondayString)
       const newGoalsLetters = CurrentWeekInfo.WeekGoal.map((item: { letter: task_letter }) => item.letter)
+      console.log('getGoalsLetters', newGoalsLetters)
       set({ GoalsLetters: newGoalsLetters })
     }
 
