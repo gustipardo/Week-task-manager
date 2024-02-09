@@ -11,7 +11,7 @@ import {
   TextInput,
   Title
 } from '@tremor/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { type Goal, type task_letter } from '../types'
 import { useWeekInfoStore } from '../store/WeekInfo'
 import { getCurrentWeekInfo } from '../services/CurrentWeekInfo'
@@ -24,18 +24,14 @@ export const WeekGoals = () => {
   const WeeksInfo = useWeekInfoStore(state => state.WeeksInfo)
   const { CurrentWeekInfo } = getCurrentWeekInfo(WeeksInfo, monday)
   const addNewGoal = useWeekInfoStore(state => state.addNewGoal)
-  const addNewWeek = useWeekInfoStore(state => state.addNewWeek)
   const getGoalsLetters = useWeekInfoStore(state => state.getGoalsLetters)
   const GoalsLetters = useWeekInfoStore(state => state.GoalsLetters)
   const deleteGoal = useWeekInfoStore(state => state.deleteGoal)
 
-  useEffect(() => {
-    addNewWeek()
-  }, [])
+  // useEffect(() => {
+  //   addNewWeek()
+  // }, [])
 
-  useEffect(() => {
-    console.log('errk', WeeksInfo)
-  }, [WeeksInfo])
   const handleSubmit = (event: React.FormEvent) => {
     setDisabled(true)
     event.preventDefault()

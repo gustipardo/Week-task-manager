@@ -8,7 +8,7 @@ import {
   TableHeaderCell,
   TableRow
 } from '@tremor/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Select } from 'antd'
 import { type Day } from '../types'
 import { useWeekInfoStore } from '../store/WeekInfo'
@@ -29,11 +29,6 @@ export const WeekDays = () => {
     value: letter,
     label: letter
   }))
-
-  useEffect(() => {
-    console.log('Weekdays', WeekUserTasksSelected)
-  }, [])
-  console.log('Options', Options)
 
   const handleChangeSelect = (value: string, day: Day) => {
     addUserTask(day, value)
