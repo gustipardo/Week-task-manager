@@ -2,14 +2,19 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { Badge } from '@tremor/react'
 
-export function SortableLetter (props) {
+interface Props {
+  id: number
+  content: string
+}
+
+export const SortableLetter: React.FC<Props> = ({ id, content }) => {
   const {
     attributes,
     listeners,
     setNodeRef,
     transform,
     transition
-  } = useSortable({ id: props.id })
+  } = useSortable({ id })
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -18,7 +23,7 @@ export function SortableLetter (props) {
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <Badge className='flex flex-col place-content-center ' color='amber'>{props.id}</Badge>
+      <Badge className='flex flex-col place-content-center ' color='amber'>{content}</Badge>
     </div>
   )
 }

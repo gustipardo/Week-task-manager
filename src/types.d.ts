@@ -1,5 +1,11 @@
 type Goal = string
 export type task_letter = string
+
+// export interface task_letter {
+//   letter: string
+//   id:
+// }
+
 type GoalId = string
 
 export interface WeekGoal {
