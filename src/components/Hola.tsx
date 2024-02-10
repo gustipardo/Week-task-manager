@@ -1,28 +1,57 @@
-import { useEffect } from 'react'
-import { useWeekInfoStore } from '../store/WeekInfo'
+import { useState } from 'react'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy
+} from '@dnd-kit/sortable'
 
-export const Hola = () => {
-  const WeeksInfo2 = useWeekInfoStore(state => state.hola)
-  const fetchHola = useWeekInfoStore(state => state.fetchHola)
+import { SortableItem } from './SortableItem'
 
-  const WeeksInfo = useWeekInfoStore(state => state.WeeksInfo)
-  const fetchWeeksInfo = useWeekInfoStore(state => state.fetchWeeksInfo)
-
-  console.log('aa', WeeksInfo)
-  useEffect(() => {
-    console.log('Effe', WeeksInfo)
-    fetchWeeksInfo()
-    console.log('Effe', WeeksInfo)
-  }, [])
-
-  // Convertir el objeto WeeksInfo a una cadena JSON
-  const weeksInfoString = JSON.stringify(WeeksInfo)
+export function Hola () {
+  const [items, setItems] = useState(['A', 'B', 'C'])
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates
+    })
+  )
 
   return (
-    <>
-      <h1>Holaaa</h1>
-      {/* Mostrar la cadena JSON en un párrafo */}
-      <p>{weeksInfoString}</p>
-    </>
+
+    <DndContext
+
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={items}
+        strategy={verticalListSortingStrategy}
+      >
+        {items.map(id => <SortableItem key={id} id={id} />)}
+      </SortableContext>
+    </DndContext>
   )
+
+  function handleDragEnd (event) {
+    const { active, over } = event
+    console.log(active, over)
+    if (active.id !== over.id) {
+      setItems((items) => {
+        const oldIndex = items.indexOf(active.id)
+        const newIndex = items.indexOf(over.id)
+
+        return arrayMove(items, oldIndex, newIndex)
+      })
+    }
+  }
 }

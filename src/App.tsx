@@ -6,6 +6,7 @@ import { ArrowLeftCircleIcon, ArrowRightCircleIcon } from '@heroicons/react/16/s
 import { useWeekInfoStore } from './store/WeekInfo'
 import { WeekDays } from './components/WeekDays'
 import { useEffect } from 'react'
+import { Hola } from './components/Hola'
 
 function App () {
   const goNextWeek = useWeekInfoStore(state => state.goNextWeek)
@@ -25,6 +26,7 @@ function App () {
       <ThemeChanger/>
       <WeekGoals />
         <WeekDays />
+        <Hola></Hola>
     </>
   )
 }

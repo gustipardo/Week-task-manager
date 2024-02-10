@@ -8,17 +8,17 @@ import {
   TableHeaderCell,
   TableRow,
   Text,
-  TextInput,
-  Title
+  TextInput
 } from '@tremor/react'
 import { useState } from 'react'
 import { type Goal, type task_letter } from '../types'
 import { useWeekInfoStore } from '../store/WeekInfo'
 import { getCurrentWeekInfo } from '../services/CurrentWeekInfo'
+import { WeekTitle } from './WeekTitle'
 
 export const WeekGoals = () => {
   const monday = useWeekInfoStore(state => state.CurrentMondayString)
-  const sunday = useWeekInfoStore(state => state.CurrentSundayString)
+
   const [disabled, setDisabled] = useState(false)
 
   const WeeksInfo = useWeekInfoStore(state => state.WeeksInfo)
@@ -27,10 +27,6 @@ export const WeekGoals = () => {
   const getGoalsLetters = useWeekInfoStore(state => state.getGoalsLetters)
   const GoalsLetters = useWeekInfoStore(state => state.GoalsLetters)
   const deleteGoal = useWeekInfoStore(state => state.deleteGoal)
-
-  // useEffect(() => {
-  //   addNewWeek()
-  // }, [])
 
   const handleSubmit = (event: React.FormEvent) => {
     setDisabled(true)
@@ -53,7 +49,7 @@ export const WeekGoals = () => {
 
   return (
   <Card>
-    <Title>Week {monday} - {sunday}</Title>
+    <WeekTitle/>
         <Table className="mt-5">
       <TableHead>
         <TableRow>

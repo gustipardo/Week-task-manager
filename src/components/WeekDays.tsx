@@ -1,5 +1,4 @@
 import {
-  Badge,
   Card,
   Table,
   TableBody,
@@ -14,6 +13,8 @@ import { type Day } from '../types'
 import { useWeekInfoStore } from '../store/WeekInfo'
 import { getCurrentWeekInfo } from '../services/CurrentWeekInfo'
 
+import { ListOfTasks } from './ListOfTasks'
+
 export const WeekDays = () => {
   const [selectedValue, setSelectedValue] = useState<string | undefined>('')
 
@@ -21,10 +22,7 @@ export const WeekDays = () => {
   const WeeksInfo = useWeekInfoStore(state => state.WeeksInfo)
   const { CurrentWeekInfo } = getCurrentWeekInfo(WeeksInfo, monday)
   const WeekUserTasksSelected = CurrentWeekInfo?.WeekTasks
-
   const GoalsLetters = useWeekInfoStore(state => state.GoalsLetters)
-  console.log('Goals Letters in WeekDays', GoalsLetters)
-
   const addUserTask = useWeekInfoStore(state => state.addNewTask)
 
   const Options = GoalsLetters.map(letter => ({
@@ -69,15 +67,11 @@ export const WeekDays = () => {
             }
             </TableRow>
           <TableRow>
+
         { WeekUserTasksSelected?.map((item, index) => (
-          <TableCell key={index} className="">
-            {
-            item.UserTasksSelected.map((element, index) => (
-            <Badge key={index} className='flex flex-col place-content-center ' color='amber'>{element}</Badge>
-            ))
-            }
-            </TableCell>
+          <ListOfTasks item={item} index={index} key={index}/>
         )) }
+
         </TableRow>
 
         </TableBody>
