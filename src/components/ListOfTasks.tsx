@@ -1,6 +1,6 @@
 import { Badge, TableCell } from '@tremor/react'
 import { type WeekTasks } from '../types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   DndContext,
   KeyboardSensor,
@@ -23,7 +23,7 @@ interface Props {
   index: number
 }
 
-export const ListOfTasks: React.FC<Props> = ({ item, index }) => {
+export const ListOfTasks: React.FC<Props> = ({ item }) => {
   const [items, setItems] = useState(item.UserTasksSelected.map((_, index) => index + 1))
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -32,32 +32,25 @@ export const ListOfTasks: React.FC<Props> = ({ item, index }) => {
     })
   )
 
-  function handleDragEnd (event) {
+  function handleDragEnd (event: { active: any, over: any }) {
     const { active, over } = event
     console.log('items', items)
     console.log('active ', active, 'over ', over)
     if (active.id !== over.id) {
       setItems((items) => {
-        const oldIndex = items.indexOf(active.id)
-        const newIndex = items.indexOf(over.id)
+        const oldIndex = items.indexOf(active.id as number)
+        const newIndex = items.indexOf(over.id as number)
 
         return arrayMove(items, oldIndex, newIndex)
       })
     }
   }
 
+  useEffect(() => {
+    setItems(item.UserTasksSelected.map((_, index) => index + 1))
+  }, [JSON.stringify(item.UserTasksSelected)])
+
   return (
-  //   <TableCell key={index}>
-  //     {item.UserTasksSelected.map((element, index) => (
-  //       <Badge
-  //         key={index}
-  //         className="flex flex-col place-content-center "
-  //         color="amber"
-  //       >
-  //         {element}
-  //       </Badge>
-  //     ))}
-  //     </TableCell>
 
     <TableCell>
       <DndContext
@@ -73,18 +66,5 @@ export const ListOfTasks: React.FC<Props> = ({ item, index }) => {
       </DndContext>
     </TableCell>
 
-  //   <TableCell>
-  //     <DndContext
-  //       sensors={sensors}
-  //       collisionDetection={closestCenter}
-  //       onDragEnd={handleDragEnd}
-  //     >
-  //       <SortableContext items={items} strategy={verticalListSortingStrategy}>
-  //         {item.UserTasksSelected.map((element, index) => (
-  //           <SortableLetter key={index} id={element} />
-  //         ))}
-  //       </SortableContext>
-  //     </DndContext>
-  //   </TableCell>
   )
 }

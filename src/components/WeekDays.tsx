@@ -34,6 +34,7 @@ export const WeekDays = () => {
     addUserTask(day, value)
     console.log(value, day, selectedValue)
     setSelectedValue('')
+    console.log('WeekUserTasksSelected', WeekUserTasksSelected)
   }
 
   return (
