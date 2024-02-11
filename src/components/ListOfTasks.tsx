@@ -25,6 +25,7 @@ interface Props {
 
 export const ListOfTasks: React.FC<Props> = ({ item }) => {
   const [items, setItems] = useState(item.UserTasksSelected.map((_, index) => index + 1))
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -34,8 +35,8 @@ export const ListOfTasks: React.FC<Props> = ({ item }) => {
 
   function handleDragEnd (event: { active: any, over: any }) {
     const { active, over } = event
-    console.log('items', items)
-    console.log('active ', active, 'over ', over)
+    // console.log('items', items)
+    // console.log('active ', active, 'over ', over)
     if (active.id !== over.id) {
       setItems((items) => {
         const oldIndex = items.indexOf(active.id as number)
