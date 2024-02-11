@@ -86,13 +86,14 @@ export const useWeekInfoStore = create<State>()(persist((set, get) => {
       set({ WeeksInfo: newWeeksInfo })
     },
     deleteGoal: (UUID: string) => {
-      const { WeeksInfo, CurrentMondayString } = get()
+      const { WeeksInfo, CurrentMondayString, getGoalsLetters } = get()
       const newWeeksInfo = structuredClone(WeeksInfo)
       const { CurrentWeekInfo, CurrentWeekIndex } = getCurrentWeekInfo(WeeksInfo, CurrentMondayString)
       const GoalIndex = CurrentWeekInfo.WeekGoal.findIndex(item => item.id === UUID)
       if (GoalIndex > -1) CurrentWeekInfo.WeekGoal.splice(GoalIndex, 1)
       newWeeksInfo[CurrentWeekIndex] = CurrentWeekInfo
       set({ WeeksInfo: newWeeksInfo })
+      getGoalsLetters()
     },
     goNextWeek: (isNext: boolean = true) => {
       const { CurrentMondayString, addNewWeek, getGoalsLetters } = get()

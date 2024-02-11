@@ -1,57 +1,67 @@
-import { useState } from 'react'
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors
-} from '@dnd-kit/core'
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy
-} from '@dnd-kit/sortable'
+import { DndContext } from '@dnd-kit/core'
+import { Droppable } from './Droppable'
+import { Draggable } from './Draggable'
+import { useEffect, useState } from 'react'
 
-import { SortableItem } from './SortableItem'
+export const Hola = () => {
+  const data = [
+    { letter: 'A', parentId: 'Mon' },
+    { letter: 'B', parentId: 'Mon' },
+    { letter: 'T', parentId: 'Mon' },
+    { letter: 'B', parentId: 'Thu' },
+    { letter: 'C', parentId: 'Wen' },
+    { letter: 'D', parentId: 'Tue' },
+    { letter: 'E', parentId: 'Fri' },
+    { letter: 'F', parentId: 'Sat' },
+    { letter: 'G', parentId: 'Sun' }
 
-export function Hola () {
-  const [items, setItems] = useState(['A', 'B', 'C'])
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates
-    })
-  )
+  ]
+
+  const containers = ['Mon', 'Thu', 'Wen', 'Tue', 'Fri', 'Sat', 'Sun']
+  const [parent, setParent] = useState(data)
+
+  useEffect(() => {
+    console.log('renderizado y parent', parent)
+  }, [parent])
 
   return (
+    <DndContext onDragEnd={handleDragEnd}>
 
-    <DndContext
+      <div className='flex flex-row'>
+        {containers.map((id) => (
 
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-    >
-      <SortableContext
-        items={items}
-        strategy={verticalListSortingStrategy}
-      >
-        {items.map(id => <SortableItem key={id} id={id} />)}
-      </SortableContext>
+          <Droppable key={id} id={id}>
+
+            <ul className="felx flex-row">
+              {data.map((item, index) => (
+                // Solo renderizar el elemento si cumple la condición
+                item.parentId === id
+                  ? (
+                    <Draggable key={index} id={item.letter}>{item.letter}</Draggable>
+                    )
+                  : null
+              ))}
+            </ul>
+
+          </Droppable>
+        ))}
+      </div>
     </DndContext>
   )
 
   function handleDragEnd (event) {
-    const { active, over } = event
-    console.log(active, over)
-    if (active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.indexOf(active.id)
-        const newIndex = items.indexOf(over.id)
+    const { over, active } = event
 
-        return arrayMove(items, oldIndex, newIndex)
-      })
+    // If the item is dropped over a container, set it as the parent
+    // otherwise reset the parent to `null`
+    console.log('over: ', over.id, 'Active: ', active.id)
+    if (over && active) {
+      console.log('a')
+      const updatedParent = parent.map(item =>
+        item.letter === active.id ? { ...item, parentId: over.id } : item
+      )
+
+      setParent(updatedParent)
     }
   }
 }
